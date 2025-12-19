@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-[ExecuteInEditMode]
-public class ScaleParticles : MonoBehaviour {
-	void Update () {
-		GetComponent<ParticleSystem>().startSize = transform.lossyScale.magnitude;
-	}
+public class ScaleParticles : MonoBehaviour
+{
+    private ParticleSystem ps;
+
+    void Awake()
+    {
+        ps = GetComponent<ParticleSystem>();
+    }
+
+    void Update()
+    {
+        var main = ps.main;
+        main.startSize = transform.lossyScale.magnitude;
+    }
 }

@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHP = 100;
-    private int currentHP;
+    public float maxHP = 100;
+    private float currentHP;
+
+    public float CurrentHP => currentHP;
+    public float MaxHP => maxHP;
 
     void Start()
     {
@@ -19,6 +22,16 @@ public class PlayerHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void Heal(float increaseHP)
+    {
+        if (currentHP >= maxHP) return; // do nothing if full health
+
+        currentHP += increaseHP;
+        currentHP = Mathf.Clamp(currentHP, 0, maxHP);
+
+        Debug.Log("Player healed by " + increaseHP + ", current HP: " + currentHP);
     }
 
     void Die()
