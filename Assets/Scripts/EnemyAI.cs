@@ -38,21 +38,20 @@ public class EnemyAI : MonoBehaviour
             case State.Patrol:
                 Patrol();
 
-                // Detection: when player enters detection range
+                animator.SetBool("IsChasing", false);
+
                 if (distanceToPlayer <= detectionRange)
                 {
                     currentState = State.Chase;
-
-                    // Trigger detection animation
-                    if (animator != null)
-                    {
-                        animator.SetTrigger("Detected");
-                    }
+                    animator.SetTrigger("Detected");
+                    animator.SetBool("IsChasing", true);
                 }
                 break;
 
             case State.Chase:
                 Chase();
+                animator.SetBool("IsChasing", true);
+
                 if (distanceToPlayer <= attackRange)
                 {
                     currentState = State.Attack;
@@ -64,10 +63,12 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case State.Attack:
+                animator.SetBool("IsChasing", false);
                 Attack();
+
                 if (distanceToPlayer > attackRange)
-                {
-                    currentState = State.Chase;
+                { 
+                currentState = State.Chase;
                 }
                 break;
         }

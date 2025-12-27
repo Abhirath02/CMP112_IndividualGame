@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
         camRight.Normalize();
 
         Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
+        float moveMagnitude = new Vector2(movementInput.x, movementInput.y).magnitude;
+        animator.SetFloat("MoveSpeed", moveMagnitude);
 
         float currentSpeed = speed * (isSprinting ? sprintMultiplier : 1f);
 
