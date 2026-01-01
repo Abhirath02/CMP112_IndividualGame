@@ -8,15 +8,29 @@ public class PlayerHealth : MonoBehaviour
     public float CurrentHP => currentHP;
     public float MaxHP => maxHP;
 
+    public Animator animator;
+
+    private bool isDead = false;
+
     void Start()
     {
         currentHP = maxHP;
     }
 
-    public void TakeDamage(int dmg)
+    public void TakeDamage(int damage)
     {
-        currentHP -= dmg;
-        Debug.Log("Player HP: " + currentHP);
+        if (isDead)
+        {
+            return;
+        }
+
+        currentHP -= damage;
+        Debug.Log("Player =" + currentHP);
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Hit"); // Plays hit animation
+        }
 
         if (currentHP <= 0)
         {
@@ -36,7 +50,12 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Player Died");
-        Destroy(gameObject);
+        isDead = true;
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+        // Destroy after animation
+        Destroy(gameObject, 2f);
     }
 }

@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour
     public float attackRange = 2f;
     public float moveSpeed = 3f;
     public float attackCooldown = 1.5f;
+    public int damage;
     public Animator animator;
 
     [Header("Patrol")]
@@ -115,6 +116,7 @@ public class EnemyAI : MonoBehaviour
     }
     void Attack()
     {
+
         if (!canAttack)
         {
             return;
@@ -125,7 +127,7 @@ public class EnemyAI : MonoBehaviour
         PlayerHealth ph = player.GetComponent<PlayerHealth>();
         if (ph != null)
         {
-            ph.TakeDamage(10);
+            ph.TakeDamage(damage);
         }
         canAttack = false;
         Invoke(nameof(ResetAttack), attackCooldown);
