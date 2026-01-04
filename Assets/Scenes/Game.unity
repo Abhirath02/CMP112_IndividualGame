@@ -2494,7 +2494,7 @@ PrefabInstance:
       objectReference: {fileID: 778845945}
     - target: {fileID: -6202253922536662808, guid: d51eda426c0148846a40764ed10c2bba, type: 3}
       propertyPath: moveSpeed
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -6202253922536662808, guid: d51eda426c0148846a40764ed10c2bba, type: 3}
       propertyPath: clubSwingSFX
@@ -6471,12 +6471,13 @@ MonoBehaviour:
   player: {fileID: 2129937878}
   detectionRange: 7
   attackRange: 3
-  moveSpeed: 5
+  moveSpeed: 2
   attackCooldown: 5
   damage: 20
   source: {fileID: 2021496154}
   animator: {fileID: 2021496149}
-  patrolPoints: []
+  patrolRadius: 5
+  patrolTime: 3
   clubSwingSFX: {fileID: 8300000, guid: 1ae6d0a2662523a4bb7a97259fdec00e, type: 3}
 --- !u!82 &2021496154
 AudioSource:
@@ -7205,7 +7206,6 @@ MonoBehaviour:
   cam: {fileID: 1000712431}
   speed: 1
   sprintMultiplier: 5
-  jumpForce: 5
   attackCooldown: 1
   minDamage: 9
   maxDamage: 12
