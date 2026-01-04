@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SwordDamage : MonoBehaviour
 {
-    public int minDamage = 5;
-    public int maxDamage = 12;
+    public int minDamage = 10;
+    public int maxDamage = 15;
     public float activeTime = 0.3f; // the duration in which the sword can deal damage
 
     private bool active = false;
@@ -23,7 +23,7 @@ public class SwordDamage : MonoBehaviour
         active = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //function to damage the enemy after the sword collides with the enemy
     {
         Debug.Log("Sword collided with: " + other.name);
         if (!active)

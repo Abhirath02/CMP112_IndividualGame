@@ -6,19 +6,18 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public GameObject sword;
     public Animator animator;
-    public AudioSource audioSource;
+    public AudioSource source;
     public Transform cam;
 
     [Header("Movement")]
     public float speed = 5f;
     public float sprintMultiplier = 1.8f;
-    public float jumpForce = 5f;
+
 
     private Rigidbody rb;
     private InputSystem_Actions controls;
     private Vector2 movementInput;
     private bool isSprinting = false;
-    private bool isGrounded = true;
 
     [Header("Combat")]
     public float attackCooldown = 1f;
@@ -30,17 +29,15 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        controls = new InputSystem_Actions();
+        controls = new InputSystem_Actions(); // using the new input system
 
         // Movement input
-        controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>();
-        controls.Player.Move.canceled += ctx => movementInput = Vector2.zero;
+        controls.Player.Move.performed += ctx => movementInput = ctx.ReadValue<Vector2>(); //to perform movement
+        controls.Player.Move.canceled += ctx => movementInput = Vector2.zero; // to cancel movement
 
         // Attack input
-        controls.Player.Attack.performed += ctx => Attack();
+        controls.Player.Attack.performed += ctx => Attack(); //left click to attack
 
-        // Jump input
-        controls.Player.Jump.performed += ctx => Jump();
 
         // Sprint input
         controls.Player.Sprint.performed += ctx => isSprinting = true;
@@ -52,7 +49,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // camera movement
         Vector3 camForward = cam.forward;
         Vector3 camRight = cam.right;
 
@@ -61,15 +57,19 @@ public class PlayerController : MonoBehaviour
         camForward.Normalize();
         camRight.Normalize();
 
-        Vector3 move = camForward * movementInput.y + camRight * movementInput.x;
+        Vector3 moveDir = camForward * movementInput.y + camRight * movementInput.x;
         float moveMagnitude = new Vector2(movementInput.x, movementInput.y).magnitude;
         animator.SetFloat("MoveSpeed", moveMagnitude);
 
-        float currentSpeed = speed * (isSprinting ? sprintMultiplier : 1f);
+        // Calculates the horizontal velocity
+        Vector3 horizontalVelocity = moveDir * speed * (isSprinting ? sprintMultiplier : 1f);
 
-        rb.MovePosition(rb.position + move * currentSpeed * Time.fixedDeltaTime);
+        // Keeps the current vertical velocity for gravity to take effect
+        Vector3 velocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
+        rb.linearVelocity = velocity;
 
-        Vector3 faceDirection = cam.forward; // face forward
+        // Rotates the player to face camera direction
+        Vector3 faceDirection = cam.forward;
         faceDirection.y = 0f;
 
         if (faceDirection.sqrMagnitude > 0.01f)
@@ -78,13 +78,13 @@ public class PlayerController : MonoBehaviour
             rb.rotation = Quaternion.Slerp(rb.rotation, targetRot, 15f * Time.fixedDeltaTime);
         }
 
-        // Animaton
+        //animations of movements
         animator.SetFloat("MoveInputX", movementInput.x);
         animator.SetFloat("MoveInputY", movementInput.y);
         animator.SetBool("Sprint", isSprinting);
     }
 
- 
+
     private void Attack() // attack function
     {
         if (!canAttack)
@@ -94,9 +94,9 @@ public class PlayerController : MonoBehaviour
 
         animator.SetTrigger("Attack");
 
-        if (audioSource != null && swordSwingSFX != null)
+        if (source != null && swordSwingSFX != null) //plays sword sfx
         {
-            audioSource.PlayOneShot(swordSwingSFX);
+            source.PlayOneShot(swordSwingSFX);
         }
 
         if (sword != null)
@@ -113,22 +113,4 @@ public class PlayerController : MonoBehaviour
         canAttack = true;
     }
 
-    private void Jump()// jump function
-    {
-        if (!isGrounded)
-        {
-            return;
-        }
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        isGrounded = false;
-        animator.SetTrigger("Jump");
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
 }

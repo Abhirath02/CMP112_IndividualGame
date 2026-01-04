@@ -7,7 +7,7 @@ public class GameWonScreen : MonoBehaviour
 
     void Update()
     {
-        if (gameWon)
+        if (gameWon) //return if gameWon is false
         {
             return;
         }
@@ -15,11 +15,11 @@ public class GameWonScreen : MonoBehaviour
         // If no boss exists, boss is dead
         if (GameObject.FindGameObjectWithTag("Boss") == null)
         {
-            WinGame();
+            WinGame(); // displays the game won screen
         }
     }
 
-    void WinGame()
+    void WinGame() // function to display the game won screen
     {
         gameWon = true;
         Time.timeScale = 0f;

@@ -8,9 +8,11 @@ public class GameOverScreen : MonoBehaviour
     public void TriggerGameOver()
     {
 
-        Time.timeScale = 0;  // pause the game
+        Time.timeScale = 0;  // pauses the game
         if (FailUI != null)
+        {
             FailUI.SetActive(true);
+        }
     }
 
 }

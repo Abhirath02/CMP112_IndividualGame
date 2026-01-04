@@ -10,13 +10,13 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Play button clicked");
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(1);// takes game from main menu to the game
     }
 
 
     public void ExitGame()
     {
-        Debug.Log("Quit Game");
-        Application.Quit();
+        Debug.Log(0);
+        Application.Quit(); // exits the game
     }
 }

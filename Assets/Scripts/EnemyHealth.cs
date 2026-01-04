@@ -1,9 +1,13 @@
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHP = 50;
     private int currentHP;
+
+    public AudioSource source;
+    public AudioClip death;
 
     public Animator animator;
 
@@ -14,9 +18,10 @@ public class EnemyHealth : MonoBehaviour
         currentHP = maxHP;
     }
 
+    //function to receive damage
     public void TakeDamage(int damage)
     {
-        if (isDead)
+        if (isDead) // returns if enemy is not dead
         {
             return;
         }
@@ -31,7 +36,7 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            Die();
+            Die(); // destroys the enemy
         }
     }
 
@@ -40,9 +45,10 @@ public class EnemyHealth : MonoBehaviour
         isDead = true;
         if (animator != null)
         {
-            animator.SetTrigger("Die");
+            animator.SetTrigger("Die"); // Plays death animation
         }
-        // Destroy after animation
+        source.PlayOneShot(death);
+        // Destroys after animation
         Destroy(gameObject, 2f);
     }
 }

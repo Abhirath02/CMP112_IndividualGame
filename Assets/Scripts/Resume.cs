@@ -13,26 +13,30 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) // pauses and resumes the game when escape is pressed
         {
             if (isPaused)
+            {
                 ResumeGame();
+            }
             else
+            {
                 PauseGame();
+            }
         }
     }
 
-    public void PauseGame()
+    public void PauseGame() //function to pause the game
     {
         pauseUI.SetActive(true);
-        Time.timeScale = 0f;
+        Time.timeScale = 0f; // freezers the game
         isPaused = true;
     }
 
-    public void ResumeGame()
+    public void ResumeGame() // function to resume the game if paused
     {
         pauseUI.SetActive(false);
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; // resumes the game
         isPaused = false;
     }
 }

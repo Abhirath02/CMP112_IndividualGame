@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player; // drag player from Hierarchy
+    public GameObject player;
     private Vector3 offset;
 
     void Start()
@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
         offset = transform.position - player.transform.position;
     }
 
+    //moves along with the player
     void LateUpdate()
     {
         if (player == null)

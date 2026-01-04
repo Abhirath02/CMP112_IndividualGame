@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    void SpawnEnemy()
+    void SpawnEnemy()//spawn enemies at random locations
     {
         Vector2 randomArea = Random.insideUnitCircle * spawnRadius;
         Vector3 spawnPos = new Vector3(transform.position.x + randomArea.x, transform.position.y, transform.position.z + randomArea.y);
@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
     }
 
-    int CountEnemies()
+    int CountEnemies()// count the number of enemies
     {
         return GameObject.FindGameObjectsWithTag("Enemy").Length;
     }
